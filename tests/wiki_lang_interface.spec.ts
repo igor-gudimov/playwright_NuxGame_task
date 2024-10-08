@@ -3,10 +3,10 @@ import { test, expect } from '@playwright/test';
 test.use({ storageState: 'playwright/.auth/wiki_user.json' });
 
 test("Verify Wikipedea's change language interface", async ({ page }) => {
-  await page.goto('https://en.wikipedia.org/wiki/Main_Page');
+  await page.goto('/wiki/Main_Page');
   await page.locator('#vector-user-links-dropdown-checkbox').click();
   await page.locator('#pt-preferences').click();
-  await page.waitForURL('https://en.wikipedia.org/wiki/Special:Preferences');
+  await page.waitForURL('/wiki/Special:Preferences');
   if (await page.locator('#mw-input-wplanguage #ooui-2').innerText() == 'en - English') {
     await page.locator('#mw-input-wplanguage span[class="oo-ui-dropdownWidget-handle"]').click()
     await page.locator("//span[contains(@class, 'oo-ui-labelElement-label') and text() = 'uk - українська']").click();
