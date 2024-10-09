@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "strict": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+    },
+    "include": [
+        "tests/**/*.ts",
+        "playwright.config.ts",
+        ".env"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
