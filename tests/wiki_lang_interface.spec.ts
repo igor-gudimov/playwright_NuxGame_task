@@ -1,23 +1,19 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from "./setup/base_setup";
 
 test.use({ storageState: 'playwright/.auth/wiki_user.json' });
 
-test("Verify Wikipedea's change language interface", async ({ page }) => {
-  await page.goto('/wiki/Main_Page');
-  await page.locator('#vector-user-links-dropdown-checkbox').click();
-  await page.locator('#pt-preferences').click();
-  await page.waitForURL('/wiki/Special:Preferences');
-  if (await page.locator('#mw-input-wplanguage #ooui-2').innerText() == 'en - English') {
-    await page.locator('#mw-input-wplanguage span[class="oo-ui-dropdownWidget-handle"]').click()
-    await page.locator("//span[contains(@class, 'oo-ui-labelElement-label') and text() = 'uk - українська']").click();
-    await page.locator('.mw-htmlform-submit-buttons button[type="submit"]').click();
-    await expect(page.locator('#firstHeading')).toContainText('Налаштування');
-    await expect(page.locator('#n-mainpage-description span')).toContainText('Головна сторінка');
+test("Verify Wikipedea's change language interface", async ({ prefPage, mainPage, page }) => {
+  await mainPage.open();
+  await mainPage.profileSettings.openPreferencesPage();
+  await page.waitForURL(prefPage.url);
+  if (await prefPage.selectedLangField.innerText() == 'en - English') {
+    await prefPage.chooseInterfaceLang('uk - українська');
+    await expect(prefPage.headerBanner).toContainText('Налаштування');
+    await expect(prefPage.leftMenuHeader).toContainText('Головна сторінка');
   } else {
-    await page.locator('#mw-input-wplanguage span[class="oo-ui-dropdownWidget-handle"]').click()
-    await page.locator("//span[contains(@class, 'oo-ui-labelElement-label') and text() = 'en - English']").click();
-    await page.locator('.mw-htmlform-submit-buttons button[type="submit"]').click();
-    await expect(page.locator('#firstHeading')).toContainText('Preferences');
-    await expect(page.locator('#n-mainpage-description span')).toContainText('Main page');
+    await prefPage.chooseInterfaceLang('en - English');
+    await expect(prefPage.headerBanner).toContainText('Preferences');
+    await expect(prefPage.leftMenuHeader).toContainText('Main page');
   }
 });
