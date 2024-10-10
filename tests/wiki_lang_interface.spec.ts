@@ -11,9 +11,13 @@ test("Verify Wikipedea's change language interface", async ({ prefPage, mainPage
     await prefPage.chooseInterfaceLang('uk - українська');
     await expect(prefPage.headerBanner).toContainText('Налаштування');
     await expect(prefPage.leftMenuHeader).toContainText('Головна сторінка');
+    await mainPage.open();
+    await expect(mainPage.talkButton).toContainText('Обговорення');
   } else {
     await prefPage.chooseInterfaceLang('en - English');
     await expect(prefPage.headerBanner).toContainText('Preferences');
     await expect(prefPage.leftMenuHeader).toContainText('Main page');
+    await mainPage.open();
+    await expect(mainPage.talkButton).toContainText('Talk');
   }
 });

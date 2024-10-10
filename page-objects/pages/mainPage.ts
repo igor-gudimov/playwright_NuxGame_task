@@ -7,6 +7,7 @@ export class MainPage extends BasePage {
   readonly profileSettings: ProfileDropdownSettingsComponent;
   readonly url: string;
   readonly welcomeBanner: Locator;
+  readonly talkButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -14,5 +15,6 @@ export class MainPage extends BasePage {
     this.profileSettings = new ProfileDropdownSettingsComponent(page);
     this.url = '/wiki/Main_Page';
     this.welcomeBanner = page.locator('#Welcome_to_Wikipedia');
+    this.talkButton = page.locator('#ca-talk > a > span');
   }
 }
